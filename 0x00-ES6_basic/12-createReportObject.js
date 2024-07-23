@@ -1,5 +1,5 @@
 export default function createReportObject(employeesList) {
-  const reportObject = {
+   const reportObject = {
     allEmployees: {
       ...employeesList,
     },
@@ -10,4 +10,3 @@ export default function createReportObject(employeesList) {
 
   return reportObject;
 }
-
