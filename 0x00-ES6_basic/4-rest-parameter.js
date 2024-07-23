@@ -1,5 +1,5 @@
 #!/usr/bin/node
 // Function using rest parameter syntax
-export default function returnHowManyArguments(argumentation) {
-  return argumentation.length;
+export default function returnHowManyArguments(...args) {
+  return args.length;
 }
