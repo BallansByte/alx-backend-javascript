@@ -15,7 +15,7 @@ class Currency {
     return this._code;
   }
 
-   set name(name) {
+  set name(name) {
     if (typeof name !== 'string') {
       throw new TypeError('Name must be a String');
     }
