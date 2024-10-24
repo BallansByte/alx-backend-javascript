@@ -1,17 +1,36 @@
-const request = require('supertest');
-const app = require('./api');  // Assuming your api.js exports the app
+const request = require('request');
+const { expect } = require('chai');
 
-describe('GET /cart/:id', () => {
-    it('should return correct message for valid cart id', (done) => {
-        request(app)
-            .get('/cart/12')
-            .expect(200)
-            .expect('Payment methods for cart 12', done);
-    });
+describe('API integration test', () => {
+  const API_URL = 'http://localhost:7865';
 
-    it('should return 404 for invalid cart id (non-numeric)', (done) => {
-        request(app)
-            .get('/cart/hello')
-            .expect(404, done);
+  it('GET / returns correct response', (done) => {
+    request.get(`${API_URL}/`, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(body).to.be.equal('Welcome to the payment system');
+      done();
     });
+  });
+
+  it('GET /cart/:id returns correct response for valid :id', (done) => {
+    request.get(`${API_URL}/cart/47`, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(body).to.be.equal('Payment methods for cart 47');
+      done();
+    });
+  });
+
+  it('GET /cart/:id returns 404 response for negative number values in :id', (done) => {
+    request.get(`${API_URL}/cart/-47`, (_err, res, _body) => {
+      expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
+
+  it('GET /cart/:id returns 404 response for non-numeric values in :id', (done) => {
+    request.get(`${API_URL}/cart/d200-44a5-9de6`, (_err, res, _body) => {
+      expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
 });
