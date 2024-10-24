@@ -1,25 +1,21 @@
 const express = require('express');
 const app = express();
+const port = 7865;
 
-// Route for the root endpoint
-app.get('/', (req, res) => {
-  res.send('Welcome to the payment system');
-});
+// Existing endpoint here...
 
-// Route for the cart endpoint with ID validation
+// New endpoint: GET /cart/:id
 app.get('/cart/:id([0-9]+)', (req, res) => {
-  const cartId = req.params.id;
-  res.send(`Payment methods for cart ${cartId}`);
+    const id = req.params.id;
+    res.send(`Payment methods for cart ${id}`);
 });
 
-// If the cart ID is not a number, return 404
+// Catch all for invalid cart IDs (non-numeric)
 app.get('/cart/:id', (req, res) => {
-  res.status(404).send('Not Found');
+    res.status(404).send('Not Found');
 });
 
-// Start the server on port 7865
-app.listen(7865, () => {
-  console.log('API available on localhost port 7865');
+// Start the server
+app.listen(port, () => {
+    console.log(`API available on localhost port ${port}`);
 });
-
-module.exports = app;

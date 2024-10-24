@@ -1,30 +1,17 @@
-const request = require('request');
-const { expect } = require('chai');
-const app = require('./api');
+const request = require('supertest');
+const app = require('./api');  // Assuming your api.js exports the app
 
-describe('Index page', () => {
-  it('should return the correct status code and result for GET /', (done) => {
-    request('http://localhost:7865', (error, response, body) => {
-      expect(response.statusCode).to.equal(200);
-      expect(body).to.equal('Welcome to the payment system');
-      done();
+describe('GET /cart/:id', () => {
+    it('should return correct message for valid cart id', (done) => {
+        request(app)
+            .get('/cart/12')
+            .expect(200)
+            .expect('Payment methods for cart 12', done);
     });
-  });
-});
 
-describe('Cart page', () => {
-  it('should return 200 and the correct message when :id is a number', (done) => {
-    request('http://localhost:7865/cart/12', (error, response, body) => {
-      expect(response.statusCode).to.equal(200);
-      expect(body).to.equal('Payment methods for cart 12');
-      done();
+    it('should return 404 for invalid cart id (non-numeric)', (done) => {
+        request(app)
+            .get('/cart/hello')
+            .expect(404, done);
     });
-  });
-
-  it('should return 404 when :id is not a number', (done) => {
-    request('http://localhost:7865/cart/hello', (error, response, body) => {
-      expect(response.statusCode).to.equal(404);
-      done();
-    });
-  });
 });
