@@ -1,0 +1,17 @@
+{
+  "name": "9-api",
+  "version": "1.0.0",
+  "description": "API for cart and payment methods",
+  "main": "api.js",
+  "scripts": {
+    "start": "node api.js",
+    "test": "jest api.test.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3"
+  }
+}
